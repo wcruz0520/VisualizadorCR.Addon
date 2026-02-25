@@ -1,23 +1,15 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Windows.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace VisualizadorCR.Addon
+namespace VisualizadorCR.Addon.Forms
 {
-    public partial class Form1 : Form
+    public sealed partial class CrystalReportViewerForm : Form
     {
         private readonly ReportDocument _reportDocument;
-        //private readonly CrystalReportViewer _viewer;
 
-        public Form1(ReportDocument reportDocument)
+        public CrystalReportViewerForm(ReportDocument reportDocument)
         {
             _reportDocument = reportDocument ?? throw new ArgumentNullException(nameof(reportDocument));
 
@@ -28,16 +20,6 @@ namespace VisualizadorCR.Addon
             Height = 768;
             StartPosition = FormStartPosition.CenterScreen;
 
-            //_viewer = new CrystalReportViewer
-            //{
-            //    Dock = DockStyle.Fill,
-            //    ToolPanelView = ToolPanelViewType.None,
-            //    ShowGroupTreeButton = true,
-            //    ShowParameterPanelButton = true,
-            //    ReuseParameterValuesOnRefresh = true,
-            //};
-
-            //Controls.Add(_viewer);
             Shown += OnViewerFormShown;
         }
 
@@ -50,8 +32,8 @@ namespace VisualizadorCR.Addon
                 Cursor = Cursors.WaitCursor;
                 try
                 {
-                    _viewer2.ReportSource = _reportDocument;
-                    _viewer2.Refresh();
+                    _viewer.ReportSource = _reportDocument;
+                    _viewer.Refresh();
                 }
                 finally
                 {
@@ -62,7 +44,7 @@ namespace VisualizadorCR.Addon
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            _viewer2.ReportSource = null;
+            _viewer.ReportSource = null;
             _reportDocument.Close();
             _reportDocument.Dispose();
             base.OnFormClosed(e);
